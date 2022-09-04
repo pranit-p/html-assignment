@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      td,
+      th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #efefef;
+      }
+
+      .button-1 {
+        background-color: #ea4c89;
+        border-radius: 8px;
+        border-style: none;
+        box-sizing: border-box;
+        color: #ffffff;
+        cursor: pointer;
+        display: inline-block;
+        font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
+          sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        height: 40px;
+        line-height: 20px;
+        list-style: none;
+        margin: 0;
+        outline: none;
+        padding: 10px 16px;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        transition: color 100ms;
+        vertical-align: baseline;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+      }
+
+      .button-1:hover,
+      .button-1:focus {
+        background-color: #f082ac;
+      }
+
+      .button-3 {
+        background-color: #2ea44f;
+        border-radius: 8px;
+        border-style: none;
+        box-sizing: border-box;
+        color: #ffffff;
+        cursor: pointer;
+        display: inline-block;
+        font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
+          sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        height: 40px;
+        line-height: 20px;
+        list-style: none;
+        margin: 0;
+        outline: none;
+        padding: 10px 16px;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        transition: color 100ms;
+        vertical-align: baseline;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+      }
+
+      .button-3:hover,
+      .button-3:focus {
+        background-color: #2ea44f;
+      }
+
+      .button-2 {
+        background-color: #4b91f7;
+        border-radius: 8px;
+        border-style: none;
+        box-sizing: border-box;
+        color: #ffffff;
+        cursor: pointer;
+        display: inline-block;
+        font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
+          sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        height: 40px;
+        line-height: 20px;
+        list-style: none;
+        margin: 0;
+        outline: none;
+        padding: 10px 16px;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        transition: color 100ms;
+        vertical-align: baseline;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+      }
+
+      .button-2:hover,
+      .button-2:focus {
+        background-color: #4b91f7;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div style="float: left">Operational Table</div>
+      <div style="float: right">
+        <button onclick="addRow()" class="button-3">Add New Row</button>
+      </div>
+    </div>
+
+    <table id="employee_table">
+      <tr>
+        <th>Sr. No</th>
+        <th>Internal Content Type</th>
+        <th>Entity</th>
+        <th>Delete</th>
+      </tr>
+    </table>
+  </body>
+</html>
+
+<script>
+  sessionStorage.setItem("row_id", parseInt("0"));
+
+  function removeRow(row_id) {
+    const row = document.getElementById("row_no_" + row_id);
+    const inner_row = document.getElementById("inner_row_no_" + row_id);
+    row.remove();
+    inner_row.remove();
+  }
+
+  function addRow() {
+    sessionStorage.setItem(
+      "row_id",
+      parseInt(sessionStorage.getItem("row_id")) + 1
+    );
+    row_id = sessionStorage.getItem("row_id");
+
+    var row =
+      `
+        <tr id="row_no_` +
+      row_id +
+      `">
+      <td>` +
+      sessionStorage.getItem("row_id") +
+      `</td>
+            <td>
+                <select id="selection_of_table_` +
+      row_id +
+      `">
+                    <option value="1">row</option>
+                    <option value="2">table</option>
+                </select>
+            </td>
+            <td><button class="button-2" onclick="addEntity(` +
+      row_id +
+      `)">add entity</button></td>
+            <td><button class="button-1" onclick="removeRow(` +
+      row_id +
+      `)">Remove</button></td>
+        </tr>
+        <tr id="inner_row_no_` +
+      row_id +
+      `"></tr>
+    `;
+    var table = document.getElementById("employee_table");
+    table.innerHTML = table.innerHTML + row;
+  }
+  function addEntity(row_id) {
+    var selected_entity = document.getElementById(
+      "selection_of_table_" + row_id
+    ).value;
+
+    var inner_content = "";
+    if (selected_entity == 1) {
+      inner_content = "<td colspan='4'>Hello, I am from inner table</td>";
+    } else {
+      inner_content = `<td colspan='4'>
+        <table>
+  <tr>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+  
+</table>
+        </td>`;
+    }
+    var main_row = document.getElementById("inner_row_no_" + row_id);
+    main_row.innerHTML = inner_content;
+  }
+</script>
